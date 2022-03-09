@@ -84,6 +84,7 @@ RUN chmod g+rw /home && \
 USER $USERNAME
 
 WORKDIR /home/workspace/
+VOLUME /home/workspace/
 
 ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
