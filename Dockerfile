@@ -35,20 +35,27 @@ RUN if [ -z "${RELEASE_TAG}" ]; then \
 
 ENV JAVA_HOME=/usr/local/java/jdk1.8.0_201
 ENV CLASSPATH=:/usr/local/java/jdk1.8.0_201/lib/
-ENV PATH=$PATH:/usr/local/java/jdk1.8.0_201/bin
 ENV GO_HOME=/usr/local/go
-ENV PATH=$PATH:/usr/local/go/bin
+ENV PATH=$PATH:/usr/local/go/bin:/usr/local/java/jdk1.8.0_201/bin:/usr/local/maven/bin
 
 RUN wget https://buildpack.oss-cn-shanghai.aliyuncs.com/jdk/cedar-14/openjdk1.8.0_201.tar.gz && \
-    tar -xzf openjdk1.8.0_201.tar.gz -C /usr/local/
+    tar -xzf openjdk1.8.0_201.tar.gz -C /usr/local/ && \
+    rm -rf openjdk1.8.0_201.tar.gz
+    
+RUN wget https://buildpack.oss-cn-shanghai.aliyuncs.com/java/maven/maven-3.3.9.tar.gz && \
+    mkdir -p /usr/local/maven && \
+    tar -xzf maven-3.3.9.tar.gz -C /usr/local/maven/ && \
+    rm -rf maven-3.3.9.tar.gz
 
 RUN wget https://buildpack.oss-cn-shanghai.aliyuncs.com/go/go1.11.13.linux-amd64.tar.gz && \
-    tar -xzf go1.11.13.linux-amd64.tar.gz -C /usr/local/
+    tar -xzf go1.11.13.linux-amd64.tar.gz -C /usr/local/ && \
+    rm -rf go1.11.13.linux-amd64.tar.gz
 
 RUN wget https://buildpack.oss-cn-shanghai.aliyuncs.com/nodejs/node/release/linux-x64/node-v12.18.3-linux-x64.tar.gz && \
     tar -xzf node-v12.18.3-linux-x64.tar.gz -C /usr/local/ && \
     ln -s /usr/local/node-v12.18.3-linux-x64/bin/node /usr/local/bin/ && \
-    ln -s /usr/local/node-v12.18.3-linux-x64/bin/npm /usr/local/bin/
+    ln -s /usr/local/node-v12.18.3-linux-x64/bin/npm /usr/local/bin/ && \
+    rm -rf node-v12.18.3-linux-x64.tar.gz
 
 RUN wget  https://rainbond-pkg.oss-cn-shanghai.aliyuncs.com/open_vscould/gitlab.gitlab-workflow-3.40.2.tar &&     tar xf gitlab.gitlab-workflow-3.40.2.tar -C /home/workspace/.openvscode-server/extensions/
 
