@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Init with extensions Gitlab-workflow
-if [ ! -d /home/workspace/.openvscode-server/extensions ];then
+if [ ! -d /home/workspace/.openvscode-server/extensions/gitlab.gitlab-workflow-3.40.2 ];then
   tar xf /home/gitlab.gitlab-workflow-3.40.2.tar -C /home/workspace/.openvscode-server/extensions/
 fi
 

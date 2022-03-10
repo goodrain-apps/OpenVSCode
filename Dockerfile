@@ -36,7 +36,7 @@ RUN if [ -z "${RELEASE_TAG}" ]; then \
 ENV JAVA_HOME=/usr/local/java
 ENV CLASSPATH=:/usr/local/java/lib/
 ENV GO_HOME=/usr/local/go
-ENV PATH=$PATH:/usr/local/go/bin:/usr/local/java/bin:/usr/local/maven/bin
+ENV PATH=$PATH:/usr/local/go/bin:/usr/local/java/bin:/usr/local/maven/.maven/bin
 
 RUN wget https://buildpack.oss-cn-shanghai.aliyuncs.com/jdk/cedar-14/openjdk1.8.0_201.tar.gz && \
     mkdir -p /usr/local/java && \
