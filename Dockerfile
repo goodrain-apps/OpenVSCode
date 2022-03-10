@@ -82,6 +82,9 @@ RUN chmod g+rw /home && \
     chown -R $USERNAME:$USERNAME /home/workspace && \
     chown -R $USERNAME:$USERNAME ${OPENVSCODE_SERVER_ROOT}
 
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 USER $USERNAME
 
 WORKDIR /home/workspace/
@@ -99,8 +102,7 @@ ENV LANG=C.UTF-8 \
 # Default exposed port if none is specified
 EXPOSE 3000
 
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # ENTRYPOINT [ "/bin/sh", "-c", "exec ${OPENVSCODE_SERVER_ROOT}/bin/openvscode-server --host 0.0.0.0 --without-connection-token \"${@}\"", "--" ]
 ENTRYPOINT ["docker-entrypoint.sh"]
 
