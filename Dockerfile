@@ -33,13 +33,14 @@ RUN if [ -z "${RELEASE_TAG}" ]; then \
     rm -f ${RELEASE_TAG}-linux-${arch}.tar.gz
 
 
-ENV JAVA_HOME=/usr/local/java/jdk1.8.0_201
-ENV CLASSPATH=:/usr/local/java/jdk1.8.0_201/lib/
+ENV JAVA_HOME=/usr/local/java
+ENV CLASSPATH=:/usr/local/java/lib/
 ENV GO_HOME=/usr/local/go
-ENV PATH=$PATH:/usr/local/go/bin:/usr/local/java/jdk1.8.0_201/bin:/usr/local/maven/bin
+ENV PATH=$PATH:/usr/local/go/bin:/usr/local/java/bin:/usr/local/maven/bin
 
 RUN wget https://buildpack.oss-cn-shanghai.aliyuncs.com/jdk/cedar-14/openjdk1.8.0_201.tar.gz && \
-    tar -xzf openjdk1.8.0_201.tar.gz -C /usr/local/ && \
+    mkdir -p /usr/local/java && \
+    tar -xzf openjdk1.8.0_201.tar.gz -C /usr/local/java && \
     rm -rf openjdk1.8.0_201.tar.gz
     
 RUN wget https://buildpack.oss-cn-shanghai.aliyuncs.com/java/maven/maven-3.3.9.tar.gz && \
@@ -98,8 +99,10 @@ ENV LANG=C.UTF-8 \
 # Default exposed port if none is specified
 EXPOSE 3000
 
-ENTRYPOINT [ "/bin/sh", "-c", "exec ${OPENVSCODE_SERVER_ROOT}/bin/openvscode-server --host 0.0.0.0 --without-connection-token \"${@}\"", "--" ]
-
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# ENTRYPOINT [ "/bin/sh", "-c", "exec ${OPENVSCODE_SERVER_ROOT}/bin/openvscode-server --host 0.0.0.0 --without-connection-token \"${@}\"", "--" ]
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 
 
